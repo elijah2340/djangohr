@@ -1,0 +1,374 @@
+.view-icons {
+    float: $__right;
+    margin-right: 10px;
+    .btn{
+        background-color: $__white;
+        border: 1px solid $__metallic-silver;
+        color: $__dark__gray;
+        font-size: $__font__size__18;
+        min-width: 40px;
+        @include margin-padding(0 5px 0 0, 4px);
+        &.active {
+            color: $__gray;
+        }
+    }
+}
+.add-btn {
+    background-color: $__primarycolor;
+    border: 1px solid $__primarycolor;
+    color: $__white;
+    float: $__right;
+    font-weight: $__medium;
+    min-width: 140px;
+    @include rounded(50px);
+    i {
+        margin-right: 5px;
+    }
+    &:hover{
+        color: $__white;
+    }
+}
+.avatar-dropdown{
+    .dropdown-toggle{
+        &:after{
+            display: $__none;
+        }
+    }
+}
+.profile-widget {
+    background-color: $__white;
+    border: 1px solid $__light__clouds;
+    text-align: $__center;
+    position: $__relative;
+    overflow: $__hidden;
+    @include margin-padding(0 0 30px, 20px);
+    @include rounded(4px);
+    @include box-shadow(null, 0, 1px, 1px, 0, rgba(0, 0, 0, .20));
+    .profile-img {
+        cursor: $__pointer;
+        height: 80px;
+        margin: 0 $__auto;
+        position: $__relative;
+        width: 80px;
+        .avatar {
+            font-size: $__font__size__24;
+            height: 80px;
+            line-height: 80px;
+            margin: 0;
+            width: 80px;
+        }
+    }
+    .dropdown.profile-action {
+        text-align: $__right;
+        @include position($__absolute,10px,5px,null,null);
+        .action-icon {
+            color: $__dark__battle__gary;
+            font-size: $__font__size__18;
+            display: $__inline__block;
+        }
+        .dropdown-toggle{
+            &::after{
+                display: $__none;
+            }
+        }
+    }
+    .user-name {
+        color: $__gray;
+        a {
+            color: $__gray;
+        }
+    }
+}
+.stats-info {
+    background-color: $__white;
+    border: 1px solid $__light__cloud;
+    text-align: $__center;
+    @include rounded(4px);
+    @include margin-padding(0 0 20px, 15px);
+    h6 {
+        color: $__plum__black;
+        font-size: $__font__size__16;
+        font-weight: $__normal;
+        line-height: 18px;
+        margin-bottom: 5px;
+    }
+    h4 {
+        font-size: $__font__size__24;
+        margin-bottom: 0;
+        span {
+            color: $__dark__smokeygray;
+            font-size: $__font__size__12;
+        }
+    }
+}
+.leave-item {
+    max-width: 653px;
+    .leave-row {
+        margin-bottom: 15px;
+       
+        @extend %display-flex;
+        .leave-left {
+            flex: 1 1 auto;
+            .input-box {
+                max-width: 410px;
+            }
+        }
+        .form-group {
+            margin-bottom: 0;
+        }
+    }
+    .leave-right {
+        flex: 0 0 200px;
+        justify-content: $__end;
+        margin-top: 31px;
+        min-height: 44px;
+        text-align: $__right;
+        @extend %display-flex;
+        @extend %align-items-center;
+        .btn {
+            + .btn {
+                margin-left: 10px;
+            }
+        }
+        .leave-edit-btn {
+            color: $__steel__blue;
+            background-color: $__transparent;
+            border: 0;
+            padding: 0 6px;
+            transition: $__unset;
+        }
+    }
+}
+.leave-header {
+    color: $__dark-blue;
+    margin-bottom: 20px;
+    @extend %justify-content-between;
+    @extend %align-items-center;
+    @extend %display-flex;
+    .title {
+        flex: 1 1 auto;
+    }
+    .leave-action {
+        flex: 1 1 auto;
+        text-align: $__right;
+    }
+}
+.half-day {
+    width: 15px;
+    .first-off {
+        white-space: $__pre-wrap;
+    }
+}
+.btn-add-emp{
+    i {
+        margin-right: 3px !important;
+        color: $__white !important;
+        font-size: $__font__size__16 !important;
+    }
+}
+.filter-row {
+    background-color: $__white;
+    box-shadow: 0px 4px 4px rgb(209 209 209 / 25%);
+    @include box-shadow(null, 0, 4px, 4px, null, rgba(209, 209, 209, .25));
+    @include margin-padding(0 0 22px, 15px 0);
+    .btn-search {
+        background-color: $__graybackblue;
+        border-color: $__graybackblue;
+        width: $__full__width;
+        @include rounded(0);
+        @extend %align-items-center;
+        @extend %justify-content-center;
+        @extend %display-flex;
+    }
+    .btn {
+        min-height: 50px;
+        @include margin-padding(null, 10px);
+    }
+    .add-emp-section {
+        list-style: $__none;
+        @extend %jusflex-end;
+        @extend %align-items-center;
+        @extend %display-flex;
+        a{
+            &.active {
+                i {
+                    color: $__primarycolor;
+                }
+            }
+            i{
+                font-size: 20px;
+                margin-right: 30px;
+                color: #343A40;
+            }
+        }
+    }
+}
+.comment-sec {
+    background: $__primarycolor;
+    width: 30px;
+    height: 30px;
+    @include position($__absolute,15px,null,null,15px);
+    @include box-shadow(null, 0, 4px, 4px, null, rgba(167, 167, 167, .25));
+    @include rounded(50%);
+    @extend %display-flex;
+    @extend %justify-content-center;
+    @extend %align-items-center;
+    i {
+        font-size: $__font__size__14;
+        color: $__white;
+    }
+}
+.emp-card {
+    .user-img-sec {
+        img {
+            width: 90px;
+            height: 90px;
+            border: 1.4px solid $__primarycolor;
+            @include margin-padding(30px 0 0, 3px);
+            @include rounded(50%);
+        }
+        h6 {
+            color: $__white;
+            font-size: $__font__size__12;
+            font-weight: $__bold;
+            @include rounded(50px);
+            @include margin-padding(12px 0 0, 8px 18px);
+            &.bg-1 {
+                background-color: $__primarycolor;
+            }
+        }
+    }
+    .client-img-li{
+        list-style: $__none;
+        @extend %display-flex;
+        @extend %align-items-center;
+        @extend %justify-content-center;
+        @include margin-padding(0 0 15px, 0);
+        li {
+            padding: 6px;
+            img {
+                width: 40px;
+            }
+        }
+    }
+    .card-footer {
+        background-color: $__transparent;
+        border-top: 0;
+        @include margin-padding(null, 0.5rem 1rem);
+        a{
+            font-size: $__font__size__16;
+            font-weight: $__bold;
+            color: $__whitecolor;
+            width:$__full__width;
+            background-color: $__primarycolor;
+            @include rounded(5px);
+            @include margin-padding(null, 10px 0);
+            @extend %display-flex;
+            @extend %align-items-center;
+            @extend %justify-content-center;
+            &:hover {
+                background-color: $__primarycolor-hover;
+            }
+        }
+    }
+}
+#pills-sub-tab {
+    background: $__white;
+    @include margin-padding(null, 20px);
+    @include rounded(5px);
+    @include box-shadow(null, 0, 4px, 14px, null, rgba(238, 238, 238, .25));
+    .nav-link {
+        color: $__blackdark;
+        font-size: $__font__size__14;
+        font-weight: $__semibold;
+        @include margin-padding(null, 15px 0px);
+        &.active{
+            background: $__transparent;
+            color: $__primarycolor;
+            @extend %display-flex;
+            @extend %align-items-center;
+        }
+        i {
+            font-size: $__font__size__10;
+            margin-right: 10px;
+        }
+    }
+    .card {
+        background: $__white;
+        border: $__none;
+        @include rounded(10px);
+        @include box-shadow(null, 0, 4px, 4px, null, rgba(209, 209, 209, .25));
+        .card-header {
+            border-bottom: 1px solid $__light__cloud;
+            @include margin-padding(null, 1rem 1.25rem);
+            @include rounded(10px 10px 0 0px);
+            @extend %display-flex;
+            @extend %align-items-center;
+            h4 {
+                font-size: $__font__size__20;
+                color: $__iridium;
+                font-weight: $__bold;
+                margin: 0;
+            }
+        }
+    }
+}
+.btn-add-emp, .btn-add-emp:focus {
+    background-color: $__primarycolor;
+    border-color: $__primarycolor;
+    width: 200px;
+    border: 4px solid #FFE3E5;
+    @include rounded(50px);
+}
+.custom-policy {
+    .btn-add-emp {
+        width: $__auto;
+        @include margin-padding(null, 10px 12px);
+    }
+    .leave-header {
+        .title {
+            font-size: $__font__size__18;
+            font-weight: $__semibold;
+        }   
+    }
+}
+.punch-finger {
+    margin-top: 40px;
+    @extend %display-flex;
+    i {
+        font-size: $__font__size__35;
+        margin-right: 15px;
+        color: $__primarycolor;
+        margin-top: 2px;
+    }
+    .punch-det {
+        margin-bottom: 20px;
+        h6 {
+            line-height: 20px;
+            margin-bottom: 0;
+            color: #4F648E;
+            font-size: $__font__size__15;
+            font-weight: 600;
+        }
+        p {
+            color: $__primarycolor;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 0;
+        }
+    }
+}
+@include respond-below(custom991) {
+    .nav-tabs {
+        background-color: #fff;
+        border-bottom: 1px solid #ddd;
+        padding: 5px;
+        .nav-link{
+            &.active{
+                &::after{
+                    width: 0;
+                }
+            }
+        }
+    }
+}

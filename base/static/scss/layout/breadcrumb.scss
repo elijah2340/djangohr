@@ -1,0 +1,41 @@
+.page-head-box {
+    background-color: $__transparent;
+    position: $__relative;
+    @include rounded(5px);
+    @extend %display-flex;
+    @extend %justify-content-between;
+    @extend %align-items-center;
+    @include margin-padding(0 0 15px, 0 0 10px);
+    @include respond-below(custom575) {
+        flex-direction: $__column;
+        align-items: $__flex-start;
+    }
+    h3 {
+        color: $__graybackblue;
+        font-weight: $__bold;
+        margin: 0;
+    }
+}
+
+.breadcrumb {
+    background-color: $__transparent;
+    @include margin-padding(0, 0);
+    .breadcrumb-item,
+    .breadcrumb-item a {
+        color: $__graybackblue;
+        font-weight: $__semibold;
+        font-size: $__font__size__14;
+    }
+    .breadcrumb-item{
+        +.breadcrumb-item{
+            &::before {
+                content: '\f105';
+                font-weight: $__bold;
+                font-family: 'Font Awesome 5 Free';
+                color: $__graybackblue;
+                float: $__left;
+                padding-right: 0.5rem;
+            }
+        }
+    }
+}

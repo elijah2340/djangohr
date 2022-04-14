@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+        <meta name="description" content="">
+        <title>Login</title>
+
+		<!-- Favicon -->
+        <link rel="shortcut icon" type="image/x-icon" href="{% static 'img/favicon.png' %}">
+
+		<!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+		<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+
+		<!-- Fontawesome CSS -->
+        <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+
+		<!-- Main CSS -->
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!--[if lt IE 9]>
+			<script src="{% static 'js/html5shiv.min.js' %}"></script>
+			<script src="{% static 'js/respond.min.js' %}"></script>
+		<![endif]-->
+    </head>
+    <body>
+
+        <!-- ========================= SECTION CONTENT ========================= -->
+        <section class="section-conten padding-y" style="min-height:84vh">
+
+        <!-- ============================ COMPONENT LOGIN   ================================= -->
+            {% if request.GET.command == 'verification' %}
+            <div class="container mx-auto alert alert-info" role="alert" style="max-width: 1024px; margin-top:100px;">
+                Thanks for registering we have sent yu a verification mail to your email address [{{ request.GET.email}}]<br><br>
+                Already Verified?<a href="{% url 'login' %}">login</a>
+            </div>
+            {% else %}
+            <div class="card mx-auto" style="max-width: 380px; margin-top:100px;">
+              <div class="card-body">
+              <h4 class="card-title mb-4">Sign in</h4>
+              {% include 'includes/alert.html' %}
+              <form action="{% url 'login' %}" method="POST">
+                  {% csrf_token %}
+                  <div class="form-group">
+                     <input type="email" class="form-control" placeholder="Email Address" name="email" >
+                  </div> <!-- form-group// -->
+                  <div class="form-group">
+                    <input type="password" class="form-control" placeholder="Password" name="password">
+                  </div> <!-- form-group// -->
+
+                  <div class="form-group">
+                    <a href="{% url 'forgotpassword' %}" class="float-right">Forgot password?</a>
+
+                  </div> <!-- form-group form-check .// -->
+                  <div class="form-group">
+                      <button type="submit" class="btn btn-primary btn-block"> Login  </button>
+                  </div> <!-- form-group// -->
+              </form>
+              </div> <!-- card-body.// -->
+            </div> <!-- card .// -->
+
+             <p class="text-center mt-4">Don't have account? <a href="{% url 'register' %}">Sign up</a></p>
+             <br><br>
+        <!-- ============================ COMPONENT LOGIN  END.// ================================= -->
+
+            {% endif %}
+        </section>
+       <script>
+           setTimeout(function(){
+                $('#message').fadeOut('slow')
+            }, 2000)
+       </script>
+        <!-- ========================= SECTION CONTENT END// ========================= -->
+    </body>
+</html>

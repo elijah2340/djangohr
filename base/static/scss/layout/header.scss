@@ -1,0 +1,356 @@
+.header {
+    background: $__white;
+    border-bottom: 1px solid transparent;
+    height: 60px;
+    z-index: 1002;
+    @include position($__fixed,0,0,null,0);
+    .header-left {
+        float: $__left;
+        height: 60px;
+        position: $__relative;
+        text-align: $__center;
+        width: 70px;
+        z-index: 1;
+        @include margin-padding(null, 0 10px);
+        @include transition(all 0.2s ease);
+        @extend %display-flex;
+        @extend %align-items-center;
+        @extend %justify-content-center;
+        background: $__primarycolor;
+        .logo {
+            @extend %display-flex;
+            line-height: 60px;
+            @extend %align-items-center;
+            @include respond-below(custom991) {
+                @extend %display-flex;
+                line-height: 60px;
+                @extend %align-items-center;
+            }
+        }
+        @include respond-below(custom991) {
+            position: $__absolute;
+            width: $__full__width;
+        }
+    }
+    .header-center {
+        float: $__left;
+        height: 60px;
+        @extend %display-flex;
+        @extend %align-items-center;
+        width: 190px;
+        @include margin-padding(null, 0 15px);
+         h1 {
+            text-transform: $__uppercase;
+            color: $__graybackblue;
+            font-size: $__font__size__20 ;
+            font-weight: $__bold;
+            margin: 0;
+        }
+    }
+    .header-new-menu {
+        float: $__left;
+        list-style: $__none;
+        @include margin-padding(0 0 0 30px, 0);
+        @extend %display-flex;
+        @extend %align-items-center;
+        line-height: 60px;
+        @include respond-below(custom991) {
+            display: $__none;
+        }
+        li{
+            position: $__relative;
+             a {
+                color: $__graybackblue;
+                font-weight: $__semibold;
+                font-size: $__font__size__15;
+                position: $__relative;
+                @include margin-padding(null, 0 20px);
+                &::after {
+                    content: '\f107';
+                    font-family: 'Font Awesome 5 Free';
+                    font-size: $__font__size__11;
+                    @include position($__relative,0,-10px,null,null);
+                }
+                &.dropdown-item {
+                    line-height: 30px;
+                    &::after {
+                        content: '';
+                    }
+                }
+            }
+        }
+    }
+    .mobile_btn {
+        display: $__none;
+        float: $__left;
+        @include respond-below(custom991) {
+            color: $__white;
+            font-size: $__font__size__24;
+            height: 60px;
+            line-height: 60px;
+            display: $__block;
+            width: 60px;
+            z-index: 10;
+            @include margin-padding(null, 0 20px);
+            @include position($__absolute,0,null,null,0);
+        }
+    }
+    .user-menu {
+        float: $__right;
+        margin: 0;
+        position: $__relative;
+        z-index: 99;
+        @include respond-below(custom991) {
+            position: $__absolute;
+            right:0;
+        }
+        @include respond-below(custom575) {
+            display: $__none;
+        }
+        &.nav{
+            > li {
+                > a {
+                    color: $__light__battle__garys;
+                    font-size: $__font__size__15;
+                    line-height: 60px;
+                    height: 60px;
+                    @include margin-padding(null, 0 15px);
+                    > i {
+                        font-size: $__font__size__20;
+                        line-height: 60px;
+                    }
+                    @include respond-below(custom991) {
+                        .far.fa-bell {
+                            color: $__white;
+                        }
+                    }
+                    .badge {
+                        color: $__white;
+                        font-weight: $__bold;
+                        width: 14px;
+                        height: 14px;
+                        @extend %display-flex;
+                        @extend %align-items-center;
+                        @extend %justify-content-center;
+                        padding: 0;
+                        font-size: $__font__size__9;
+                        background-color: $__primarycolor;
+                        @include position($__absolute,12px,7px,null,null);
+                    }
+                }
+            }
+        }
+        .page-title-box {
+            float: $__left;
+            height: 60px;
+            @include margin-padding(0, 0);
+            @include rounded(0);
+            @include respond-below(custom991) {
+                display: $__none;
+            }
+        }
+        .responsive-search {
+            display: $__none;
+            color: $__gray;
+            font-size: $__font__size__20;
+            height: 60px;
+            line-height: 60px;
+            @include margin-padding(null, 0 15px);
+            @include respond-below(custom991) {
+                color: $__white;
+                display: $__inline__block;
+            }
+        }
+        .report-btn {
+            span {
+                color: $__primarycolor;
+            }
+        }
+    }
+    .top-nav-search {
+        form {
+            margin-top: 10px;
+            position: $__relative;
+            width: 230px;
+            @include respond-below(custom991) {
+                display: $__none;
+            }
+        }
+        .form-control {
+            background-color: #F3F7FA;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: $__graybackblue;
+            height: 40px;
+            @include margin-padding(null, 10px 50px 10px 15px);
+           border-radius: 50px !important;
+        }
+        .btn-outline-secondary {
+            color: $__graybackblue;
+        }
+        .btn {
+            background-color: $__transparent;
+            border-color: $__transparent;
+            min-height: 40px;
+            @include position($__absolute,0,0,null,null);
+            @include margin-padding(null, 7px 15px);
+        }
+    }
+    .main-drop {
+        @extend %display-flex;
+        @extend %align-items-center;
+        padding-right: 15px;
+        .nav-link {
+            line-height: $__normal !important;
+            height: $__auto !important;
+        }
+        .user-img {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+            img {
+                width: 30px;
+                @include rounded(50%);
+            }
+        }
+    }
+    .has-arrow {
+        .dropdown-toggle{
+            &:after {
+                border-top: 0;
+                border-left: 0;
+                border-bottom: 2px solid $__graybackblue;
+                border-right: 2px solid $__graybackblue;
+                content: '';
+                height: 8px;
+                display: $__inline__block;
+                pointer-events: $__none;
+                @include transform-origin(66% 66%);
+                @include transform(rotate(45deg));
+                @include transition(all 0.2s ease);
+                width: 8px;
+                vertical-align: 2px;
+                @include respond-below(custom991) {
+                    display: $__none;
+                }
+            }
+            @include respond-below(custom991) {
+                span{
+                    &:nth-child(2){
+                        display: $__none;
+                    }
+                }
+            }
+        }
+    }
+    .dropdown-toggle{
+        &::after {
+            display: $__none;
+        }
+    }
+    
+    .mobile-user-menu {
+        color: $__white;
+        display: $__none;
+        float: $__right;
+        font-size: $__font__size__24;
+        height: 60px;
+        line-height: 60px;
+        text-align: $__right;
+        width: 60px;
+        z-index: 10;
+        @include margin-padding(null, 0 20px);
+        @include position($__absolute,0,0,null,null);
+        @include respond-below(custom575) {
+            display: $__block;
+        }
+        a {
+            color: $__white;
+            padding: 0;
+        }
+        @include respond-below(custom575) {
+            .dropdown-menu-right{
+                a{
+                    color: $__gray;
+                    height: 40px;
+                    line-height: 33px;
+                    @include margin-padding(null, 0 10px);
+                }
+            }
+        }
+        .dropdown-menu {
+            min-width: 130px;
+        }
+    }
+    @include respond-above(custom992) {
+        #toggle_btn {
+            color: $__gray__cloud;
+            float: $__left;
+            font-size: $__font__size__26;
+            line-height: 60px;
+            padding: 0;
+            .bar-icon {
+                display: $__inline__block;
+                width: 21px;
+                margin-top: 25px;
+                span {
+                    background-color: $__graybackblue;
+                    border-radius: 500px;
+                    display: $__block;
+                    float: $__left;
+                    height: 2px;
+                    margin-bottom: 5px;
+                    width: 21px;
+                    &:nth-child(2) {
+                        width: 15px;
+                    }
+                }
+            }
+        }
+    }
+}
+@include respond-above(custom991) {
+    .mini-sidebar{
+        .header{
+            .header-center {
+                display: $__none;
+            }
+        }
+    }
+}
+.sidebar-overlay {
+    display: $__none;
+    z-index: 90;
+    height: $__full__height;
+    width: $__full__width;
+    z-index: 1040;
+    background-color: rgba(0, 0, 0, 0.6);
+    @include position($__fixed,60px,null,null,0);
+    &.opened {
+        display: $__block;
+    }
+}
+.content-full{
+    height: $__full__height;
+    position: $__relative;
+    width: $__full__width;
+    .display-table {
+        display: $__table;
+        table-layout: $__fixed;
+        border-spacing: 0;
+        width: $__full__width;
+        height: $__full__height;
+        .table-body {
+            position: $__relative;
+            width: $__full__width;
+            height: $__full__height;
+            .table-content {
+                overflow: $__auto;
+                @include position($__absolute,0,0,0,0);
+            }
+        }
+    }
+    .table-row {
+        display: $__table-row;
+        height:$__full__height;
+    }
+}

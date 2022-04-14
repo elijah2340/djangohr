@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<!-- Page Wrapper -->
+<div class="page-wrapper">
+
+    <!-- Page Content -->
+    <div class="content container-fluid pb-0">
+
+        <!-- Page Header -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="page-head-box">
+                    {% include 'includes/alert.html' %}
+                    <h3>Welcome Admin!</h3>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <!-- /Page Header -->
+
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+                <div class="card flex-fill tickets-card">
+                    <div class="card-header">
+                        <div class="text-center w-100 p-3">
+                            <a href="{% url 'all_departments' %}">
+                                <h3 class="bl-text mb-1">{{ departments_count }}</h3>
+                                <h2>Departments</h2>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+                <div class="card flex-fill tickets-card">
+                    <div class="card-header">
+                        <div class="text-center w-100 p-3">
+                            <a href="{% url 'all_hods' %}">
+                                <h3 class="bl-text mb-1">{{ hod_count }}</h3>
+                                <h2>HODs</h2>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+                <div class="card flex-fill tickets-card">
+                    <div class="card-header">
+                        <div class="text-center w-100 p-3">
+                            <a href="{% url 'employees' %}">
+                            <h3 class="bl-text mb-1">{{ employees_count }}</h3>
+                            <h2>Employees</h2>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

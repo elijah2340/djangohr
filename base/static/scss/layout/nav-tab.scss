@@ -1,0 +1,110 @@
+.att-card {
+    .nav-tabs {
+        border-bottom: $__none;
+        .nav-link {
+            color: $__gray;
+            font-size: $__font__size__14;
+            font-weight: $__semibold;
+            background-color: $__transparent;
+            border-color: $__transparent;
+            @include margin-padding(null, 0 12px);
+            &.active{
+                &::after {
+                    content: '';
+                    display: $__block;
+                    width: $__full__width;
+                    background-color: $__primarycolor;
+                    height: 5px;
+                    @include position($__relative,20px,null,null,null);
+                    @include respond-below(custom991) {
+                        top: 0px;  
+                    }
+                }
+            }
+        }
+    }
+}
+.nav-tabs {
+    border-bottom: $__none;
+    .nav-tabs-bottom  {
+        li {
+            margin-bottom: -1px;
+        }
+    }
+    .nav-link {
+        color: $__grayback;
+        font-size: $__font__size__14;
+        font-weight: $__semibold;
+        background-color: $__transparent;
+        border-color:$__transparent !important;
+        @include rounded(0);
+        @include margin-padding(null, 0 12px);
+        &:hover{
+            border-color:$__transparent;
+        }
+        &:focus{
+            border-color:$__transparent;
+        }
+        &.active{
+            &::after {
+                content: '';
+                display: $__block;
+                width: $__full__width;
+                background-color: $__primarycolor;
+                height: 5px;
+                @include position($__relative,10px,null,null,null);
+            }
+        }
+    }
+    &.nav-tabs-solid {
+        background-color: $__light__white;
+        border: 0;
+        li{
+            a{
+                &.active,
+                &:hover{
+                    background-color: $__transparent;
+                    border-color: $__transparent;
+                    color: $__primarycolor;
+                }
+            }
+        }
+    }
+}
+.video-window{
+    .fixed-header {
+        .nav {
+            > li {
+                > a {
+                    @include margin-padding(null, 18px 15px);
+                }
+            }
+        }
+    }
+}
+.nav-vert {
+    .nav-tabs {
+        .nav-link {
+            position: $__relative;
+            text-align: $__left;
+            @include margin-padding(null, 10px 0);
+            &.active{
+                &::after {
+                    content: '';
+                    display: $__block;
+                    width: 5px;
+                    background-color: $__primarycolor;
+                    height: $__full__height;
+                    @include position($__absolute,0,null,null,-27px);
+                }
+            }
+        }
+    }
+}
+ .nav-tabs {
+    .nav-link{
+        &.active{
+            background: $__transparent;
+        }
+    }
+ }
