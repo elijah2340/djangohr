@@ -29,10 +29,12 @@ def registerview(request):
                 last_name=last_name,
                 username=username,
                 email=email,
-                profile_picture= profile_picture,
+                profile_picture=profile_picture,
                 password=password
             )
             user.phone_number = phone_number
+            user.is_staff = True
+            user.is_admin = True
             user.save()
 
             # # user profile creation
