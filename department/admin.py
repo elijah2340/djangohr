@@ -1,5 +1,9 @@
 from django.contrib import admin
-from .models import Department, Employee, Attendance, HOD
+from .models import Department, Employee, Attendance, Leave, NextOfKin
+
+
+class LeaveAdmin(admin.ModelAdmin):
+    list_display = ('applicant', 'status')
 
 
 class AttendanceAdmin(admin.ModelAdmin):
@@ -19,4 +23,5 @@ class DepartmentAdmin(admin.ModelAdmin):
 admin.site.register(Department, DepartmentAdmin)
 admin.site.register(Employee, EmployeeAdmin)
 admin.site.register(Attendance, AttendanceAdmin)
-admin.site.register(HOD)
+admin.site.register(Leave, LeaveAdmin)
+admin.site.register(NextOfKin)

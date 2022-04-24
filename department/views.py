@@ -7,8 +7,8 @@ from django.views.generic import *
 from django.utils import timezone
 from django.db.models import Q
 from user.forms import RegistrationForm
-from .forms import AttendanceForm, NewEmployeeForm
-from .models import Department, Employee, Attendance, HOD
+from .forms import AttendanceForm, NewEmployeeForm, NewDepartmentForm, LeaveForm
+from .models import Department, Employee, Attendance, Leave
 from user.models import Account
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
@@ -23,20 +23,27 @@ from django.contrib.auth.decorators import login_required, permission_required
 
 def allDepartments(request):
     departments = Department.objects.all().order_by('-date_created')
+    if request.method == 'POST':
+        form = NewDepartmentForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            description = form.cleaned_data['description']
+            department = Department()
+            department.name = name
+            department.description = description
+            department.save()
+        else:
+            messages.error(request, 'Failed to add new department, please check all fields and try again')
+            form = NewDepartmentForm()
+            return redirect('all_departments')
+    else:
+        form = NewDepartmentForm()
 
     context = {
-        'departments': departments
+        'departments': departments,
+        'form': form,
     }
     return render(request, 'department.html', context)
-
-
-def allHods(request):
-    hods = HOD.objects.all().order_by('-date_added')
-
-    context = {
-        'hods': hods
-    }
-    return render(request, 'hod.html', context)
 
 
 def singleDepartment(request, slug):
@@ -68,6 +75,12 @@ def allEmployees(request):
                 gender = employee_form.cleaned_data['gender']
                 emergency = employee_form.cleaned_data['emergency']
                 role = employee_form.cleaned_data['role']
+                local_government = employee_form.cleaned_data['local_government']
+                state_of_origin = employee_form.cleaned_data['state_of_origin']
+                date_of_first_appointment = employee_form.cleaned_data['date_of_first_appointment']
+                date_of_present_appointment = employee_form.cleaned_data['date_of_present_appointment']
+                date_of_birth = employee_form.cleaned_data['date_of_birth']
+                grade_level = employee_form.cleaned_data['grade_level']
                 department = employee_form.cleaned_data['department']
                 language = employee_form.cleaned_data['language']
                 nuban = employee_form.cleaned_data['nuban']
@@ -84,10 +97,20 @@ def allEmployees(request):
                 user.phone_number = phone_number
                 user.save()
 
+                retirement_by_birth = date_of_birth.replace(year=date_of_birth.year + 60)
+                retirement_by_service = date_of_first_appointment.replace(year=date_of_first_appointment.year + 35)
                 employee = Employee()
+                employee.retirement_date_by_age = retirement_by_birth
+                employee.retirement_date_by_years_of_service = retirement_by_service
                 employee.staff = user
                 employee.gender = gender
+                employee.date_of_birth = date_of_birth
                 employee.emergency = emergency
+                employee.local_government = local_government
+                employee.state_of_origin = state_of_origin
+                employee.date_of_first_appointment = date_of_first_appointment
+                employee.date_of_present_appointment = date_of_present_appointment
+                employee.grade_level = grade_level
                 employee. role = role
                 employee.department = department
                 employee.language = language
@@ -113,9 +136,12 @@ def allEmployees(request):
                 return redirect('employees')
             else:
                 messages.error(request, 'Failed to add new employee, please check all fields and try again')
-                form = RegistrationForm()
-                employee_form = NewEmployeeForm()
-                return redirect('employees')
+                context = {
+                    'employees': employees,
+                    'form': form,
+                    'employee_form': employee_form
+                }
+                return render(request, 'employees.html', context)
         else:
             form = RegistrationForm()
             employee_form = NewEmployeeForm()
@@ -134,6 +160,39 @@ def employeeProfile(request, id):
         'employee': employee
     }
     return render(request, 'employee_profile.html', context)
+
+
+def leave(request):
+    if request.method == 'POST':
+        employee = Employee.objects.get(staff=request.user)
+        form = LeaveForm(request.POST)
+        if form.is_valid():
+            leave_purpose = form.cleaned_data['leave_purpose']
+            start_time = form.cleaned_data['start_time']
+            end_time = form.cleaned_data['start_time']
+
+            data = Leave()
+            data.leave_purpose = leave_purpose
+            data.start_time = start_time
+            data.end_time = end_time
+            data.applicant = employee
+            data.save()
+            messages.success(request, 'Your leave application has been received and is being reviewed, check the status'
+                                      ' on your dashboard ')
+            return redirect('dashboard')
+        else:
+            messages.error(request, 'Application Failed, please check all fields and try again')
+            form = LeaveForm()
+            context = {
+                'form': form,
+            }
+            return render(request, 'leave.html', context)
+    else:
+        form = LeaveForm()
+    context = {
+        'form': form,
+    }
+    return render(request, 'leave.html', context)
 
 
 # remember to later add LoginRequiredMixin

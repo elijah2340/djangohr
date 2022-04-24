@@ -2,6 +2,7 @@
 {% block title %} Employees {% endblock %}
 {% load static %}
 {% block content %}
+{{ employee_form.media }}
 <!-- Page Wrapper -->
 <div class="page-wrapper">
 
@@ -129,6 +130,12 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
+                                    <label class="col-form-label">Emergency Contact Number <span class="text-danger">*</span></label>
+                                    {{ employee_form.emergency }}
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
                                     <label>Profile Picture<span class="mandatory">*</span></label>
 					                {{ form.profile_picture }}
                                 </div>
@@ -147,10 +154,41 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="col-form-label">Emergency Contact Number <span class="text-danger">*</span></label>
-                                    {{ employee_form.emergency }}
+                                    <label class="col-form-label">Date of Birth <span class="text-danger">*</span></label>
+                                    {{ employee_form.date_of_birth }}
                                 </div>
                             </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>LGA<span class="mandatory">*</span></label>
+					                {{ employee_form.local_government }}
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>State of Origin<span class="mandatory">*</span></label>
+					                {{ employee_form.state_of_origin }}
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>First Appointment<span class="mandatory">*</span></label>
+					                {{ employee_form.date_of_first_appointment }}
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Present Appointment<span class="mandatory">*</span></label>
+					                {{ employee_form.date_of_present_appointment }}
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Grade Level<span class="mandatory">*</span></label>
+					                {{ employee_form.grade_level }}
+                                </div>
+                            </div>
+
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label class="col-form-label">Role </label>
@@ -196,7 +234,8 @@
                         <div class="submit-section">
                             <button class="btn btn-primary submit-btn">Submit</button>
                         </div>
-                        {{ form.email.errors }}
+                            {{ form.email.errors }}
+                        {{ form.errors }}
                           {{ form.non_field_errors }}
                           {{ form.password.errors }}
                           {{ employee_form.non_field_errors }}
@@ -275,6 +314,7 @@
                                     <input class="form-control" value="9876543210" type="text">
                                 </div>
                             </div>
+
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label class="col-form-label">Company</label>
@@ -530,4 +570,6 @@
 
 </div>
 <!-- /Page Wrapper -->
+
+
 {% endblock %}

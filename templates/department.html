@@ -42,6 +42,7 @@
                         <thead>
                             <tr>
                                 <th>Department Name</th>
+                                <th class="text-middle">Date Added</th>
                                 <th class="text-end">Action</th>
                             </tr>
                         </thead>
@@ -49,6 +50,7 @@
                         {% for department in departments %}
                             <tr>
                                 <td><a href="{% url 'department' department.slug %}" >{{ department.name }}</a></td>
+                                <td><a href="{% url 'department' department.slug %}" >{{ department.date_created }}</a></td>
                                 <td class="text-end ico-sec d-flex justify-content-end">
                                     <a href="#" data-bs-toggle="modal" data-bs-target="#edit_department"><i class="fas fa-pen"></i></a>
                                     <a href="#" data-bs-toggle="modal" data-bs-target="#delete_department"><i class="far fa-trash-alt"></i></a>
@@ -62,6 +64,7 @@
         </div>
     </div>
     <!-- /Page Content -->
+    {% include 'includes/alert.html' %}
 
     <!-- Add Department Modal -->
     <div id="add_department" class="modal custom-modal fade" role="dialog">
@@ -74,10 +77,15 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form method="POST" action="{% url 'all_departments' %} ">
+                        {% csrf_token %}
                         <div class="form-group">
                             <label>Department Name <span class="text-danger">*</span></label>
-                            <input class="form-control" type="text">
+                            {{ form.name }}
+                        </div>
+                        <div class="form-group">
+                            <label>Description <span class="text-danger">*</span></label>
+                            {{ form.description }}
                         </div>
                         <div class="submit-section">
                             <button class="btn btn-primary cancel-btn" data-bs-dismiss="modal" aria-label="Close">Cancel</button>

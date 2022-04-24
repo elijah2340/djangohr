@@ -22,6 +22,259 @@
             </div>
         </div>
         <!-- /Page Header -->
+        <div class="card mb-0">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="profile-view">
+                            <div class="profile-img-wrap">
+                                <div class="profile-img">
+                                    <img alt="" src="{{ employee.staff.profile_picture.url}}">
+                                </div>
+                            </div>
+                            <div class="profile-basic">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <div class="profile-info-left">
+                                            <h3 class="user-name m-t-0 mb-0">{{ employee.full_name }}</h3>
+                                            <h4 ><strong>Department: </strong>{{ employee.department }}</h4>
+                                            <small ><strong>Role: </strong>{{ employee.role }}</small>
+                                            <div class="staff-id"> <strong>ID: </strong>{{ employee.emp_id}}</div>
+                                            <div class="small doj "><strong>Date Joined: </strong>{{ employee.staff.date_joined}}</div>
+                                            <div class="small doj "><strong>Verified: </strong>{{ employee.staff.is_active}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <ul class="personal-info">
+                                            <li>
+                                                <div class="title">Phone:</div>
+                                                <div class="text">{{ employee.staff.phone_number }}</div>
+                                            </li>
+                                            <li>
+                                                <div class="title">Email:</div>
+                                                <div class="text">{{ employee.staff.email}}</div>
+                                            </li>
+                                            <li>
+                                                <div class="title">Birthday:</div>
+                                                <div class="text">{{ employee.date_of_birth }}</div>
+                                            </li>
+                                            <li>
+                                                <div class="title">Address:</div>
+                                                <div class="text">{{ employee.address }}</div>
+                                            </li>
+                                            <li>
+                                                <div class="title">Gender:</div>
+                                                <div class="text">{{ employee.gender }}</div>
+                                            </li>
+                                            <li>
+                                                <div class="title">Reports to:</div>
+                                                <div class="text">
+                                                   <div class="avatar-box">
+                                                      <div class="avatar avatar-xs">
+                                                         <img src="{{ employee.department.director.profile_picture.url }}" alt="">
+                                                      </div>
+                                                   </div>
+                                                    {{ employee.department.director }}
+
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+         <div class="tab-content">
+            <!-- Profile Info Tab -->
+            <div id="emp_profile" class="pro-overview tab-pane fade show active">
+                <div class="row">
+                <div class="col-md-6 d-flex">
+                    {% if family %}
+                    <div class="card profile-box flex-fill">
+                        <div class="card-body">
+                            <h3 class="card-title">Next of kin </h3>
+                            <h5 class="section-title">Primary</h5>
+
+                            {% for fam in family %}
+                            <ul class="personal-info">
+                                <li>
+                                    <div class="title">Name:</div>
+                                    <div class="text">{{ fam.name1 }}</div>
+                                </li>
+                                <li>
+                                    <div class="title">Relationship:</div>
+                                    <div class="text">{{ fam.relationship1 }}</div>
+                                </li>
+                                <li>
+                                    <div class="title">Phone:</div>
+                                    <div class="text">{{ fam.phone_number1 }}</div>
+                                </li>
+                            </ul>
+                            <hr>
+                            <h5 class="section-title">Secondary</h5>
+                            <ul class="personal-info">
+                                <li>
+                                    <div class="title">Name:</div>
+                                    <div class="text">{{ fam.name2 }}</div>
+                                </li>
+                                <li>
+                                    <div class="title">Relationship:</div>
+                                    <div class="text">{{ fam.relationship2 }}</div>
+                                </li>
+                                <li>
+                                    <div class="title">Phone:</div>
+                                    <div class="text">{{ fam.phone_number2 }}</div>
+                                </li>
+                            </ul>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="card profile-box flex-fill">
+                        <div class="card-body">
+                            <h3 class="card-title">Next of kin <a href="#" class="edit-icon" data-bs-toggle="modal" data-bs-target="#emergency_contact_modal"><i class="fas fa-pencil-alt"></i></a></h3>
+                            <h3 class="section-title">Add Next Of Kin</h3>
+                        </div>
+                    </div>
+                     {% endif %}
+                </div>
+                    <div class="col-md-6 d-flex">
+							<div class="card att-card flex-fill">
+								<div class="card-header">
+									<h3><i class="fas fa-user-times"></i> Your Leave</h3>
+                                    {% if leave %}
+                                    {% else %}
+									<a href="{% url 'leave' %}">Apply Leave</a>
+                                    {% endif %}
+								</div>
+                                {% if leave %}
+                                <div class="card-body leave-ln">
+									<ul>
+										<li>
+											<h5>{{ leave.date_applied }}</h5>
+											<h4>Application Date</h4>
+										</li>
+                                        <li>
+											<h3>{{ leave.leave_purpose }}</h3>
+											<h4>Leave Purpose</h4>
+										</li>
+                                        <li>
+											<h3>{{ leave.status }}</h3>
+											<h4>Leave Status</h4>
+										</li>
+									</ul>
+								</div>
+                                {% else %}
+                                <h4>No active leave application at this time</h4>
+                                {% endif %}
+								<div class="card-body leave-ln">
+                                     <h4>Previous applications: {{ previous }}</h4>
+                                      <table class="table table-striped custom-table mb-0 datatable">
+                                            <thead>
+                                                <tr>
+                                                    <th>Application Date</th>
+                                                    <th>Status</th>
+                                                    <th>Purpose</th>
+
+                                                </tr>
+
+                                            </thead>
+                                            <tbody>
+                                            {% for application in previous_applications %}
+                                                <tr>
+                                                    <td>{{ application.date_applied }}</td>
+                                                    <td>{{ application.status }}</td>
+                                                    <td class="text-end ico-sec d-flex justify-content-end">
+                                                        {{application.leave_purpose}}
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+								</div>
+							</div>
+						</div>
+            </div>
+         </div>
+         </div>
     </div>
+    <!-- Emergency Contact Modal -->
+    <div id="emergency_contact_modal" class="modal custom-modal fade" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Update Next of Kin</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{% url 'dashboard' %}" method="POST">
+                        {% csrf_token %}
+                        <div class="card">
+                            <div class="card-body">
+                                <h3 class="card-title">Primary </h3>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Name <span class="text-danger">*</span></label>
+                                            {{ form.name1 }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Relationship <span class="text-danger">*</span></label>
+                                            {{ form.relationship1 }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Phone <span class="text-danger">*</span></label>
+                                            {{ form.phone_number1 }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-body">
+                                <h3 class="card-title">Secondary</h3>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Name <span class="text-danger">*</span></label>
+                                            {{ form.name2 }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Relationship <span class="text-danger">*</span></label>
+                                            {{ form.relationship2 }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Phone <span class="text-danger">*</span></label>
+                                            {{ form.phone_number2 }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="submit-section">
+                            <button class="btn btn-primary submit-btn">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Emergency Contact Modal -->
 </div>
+
+
 {% endblock %}

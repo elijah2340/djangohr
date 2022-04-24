@@ -53,7 +53,7 @@
                                             </li>
                                             <li>
                                                 <div class="title">Birthday:</div>
-                                                <div class="text">24th July</div>
+                                                <div class="text">{{ employee.date_of_birth }}</div>
                                             </li>
                                             <li>
                                                 <div class="title">Address:</div>
@@ -68,12 +68,11 @@
                                                 <div class="text">
                                                    <div class="avatar-box">
                                                       <div class="avatar avatar-xs">
-                                                         <img src="{% static 'img/profiles/avatar-16.jpg' %}" alt="">
+                                                         <img src="{{ employee.department.director.profile_picture.url }}" alt="">
                                                       </div>
                                                    </div>
-                                                   <a href="profile.html">
-                                                        Jeffery Lalor
-                                                    </a>
+                                                    {{ employee.department.director }}
+
                                                 </div>
                                             </li>
                                         </ul>

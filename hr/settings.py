@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'base',
     'department',
     'user',
+    'tempus_dominus'
 ]
 
 MIDDLEWARE = [
@@ -142,3 +143,5 @@ EMAIL_HOST_PASSWORD = 'gpqgxlbvwcdqkckp'  # host email password required  zmuxbg
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = 'login'
+
+TEMPUS_DOMINUS_LOCALIZE = True
