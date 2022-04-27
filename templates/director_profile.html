@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %} {{ employee.full_name }} {% endblock %}
+{% block title %} {{ director.full_name }} {% endblock %}
 {% load static %}
 {% block content %}
 <!-- Page Wrapper -->
@@ -12,7 +12,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="page-head-box">
-                    <h3>{{ employee.full_name }}'s Profile</h3>
+                    <h3>{{ director.full_name }}'s Profile</h3>
                 </div>
             </div>
         </div>
@@ -25,53 +25,52 @@
                         <div class="profile-view">
                             <div class="profile-img-wrap">
                                 <div class="profile-img">
-                                    <img alt="" src="{{ employee.staff.profile_picture.url}}">
+                                    <img alt="" src="{{ director.staff.profile_picture.url}}">
                                 </div>
                             </div>
                             <div class="profile-basic">
                                 <div class="row">
                                     <div class="col-md-5">
                                         <div class="profile-info-left">
-                                            <h3 class="user-name m-t-0 mb-0">{{ employee.full_name }}</h3>
-                                            <h4><strong>Department: </strong>{{ employee.department }}</h4>
-                                            <small ><strong>Role: </strong>{{ employee.role }}</small>
-                                            <div class="staff-id"> <strong>ID: </strong>{{ employee.emp_id}}</div>
-                                            <div class="small doj "><strong>Date Joined: </strong>{{ employee.staff.date_joined}}</div>
-                                            <div class="small doj "><strong>Retirement Date: </strong>{{ employee.actual_retirement }}</div>
-                                            <div class="small doj "><strong>Verified: </strong>{{ employee.staff.is_active}}</div>
-                                            </div>
+                                            <h3 class="user-name m-t-0 mb-0">{{ director.full_name }}</h3>
+                                            <h4 ><strong>Department: </strong>{{ director.department }}</h4>
+                                            <small ><strong>Retirement Date: </strong>{{ director.actual_retirement }}</small>
+                                            <div class="staff-id"> <strong>ID: </strong>{{ director.director_id}}</div>
+                                            <div class="small doj "><strong>Date Joined: </strong>{{ director.staff.date_joined}}</div>
+                                            <div class="small doj "><strong>Verified: </strong>{{ director.staff.is_active}}</div>
+                                        </div>
                                     </div>
                                     <div class="col-md-7">
                                         <ul class="personal-info">
                                             <li>
                                                 <div class="title">Phone:</div>
-                                                <div class="text">{{ employee.staff.phone_number }}</div>
+                                                <div class="text">{{ director.staff.phone_number }}</div>
                                             </li>
                                             <li>
                                                 <div class="title">Email:</div>
-                                                <div class="text">{{ employee.staff.email}}</div>
+                                                <div class="text">{{ director.staff.email}}</div>
                                             </li>
                                             <li>
                                                 <div class="title">Birthday:</div>
-                                                <div class="text">{{ employee.date_of_birth }}</div>
+                                                <div class="text">{{ director.date_of_birth }}</div>
                                             </li>
                                             <li>
                                                 <div class="title">Address:</div>
-                                                <div class="text">{{ employee.address }}</div>
+                                                <div class="text">{{ director.address }}</div>
                                             </li>
                                             <li>
                                                 <div class="title">Gender:</div>
-                                                <div class="text">{{ employee.gender }}</div>
+                                                <div class="text">{{ director.gender }}</div>
                                             </li>
                                             <li>
                                                 <div class="title">Reports to:</div>
                                                 <div class="text">
                                                    <div class="avatar-box">
                                                       <div class="avatar avatar-xs">
-                                                         <img src="{{ director.staff.profile_picture.url }}" alt="">
+                                                         <img src="" alt="">
                                                       </div>
                                                    </div>
-                                                    {{ director.full_name }} | {{ director.staff.email }}
+                                                    Management
 
                                                 </div>
                                             </li>
@@ -110,38 +109,38 @@
                                 <ul class="personal-info">
                                     <li>
                                         <div class="title">Tel</div>
-                                        <div class="text"><a href="">{{ employee.staff.phone_number }}</a></div>
+                                        <div class="text"><a href="">{{ director.staff.phone_number }}</a></div>
                                     </li>
                                     <li>
                                         <div class="title">State Of Origin</div>
-                                        <div class="text">{{ employee.state_of_origin }}</div>
+                                        <div class="text">{{ director.state_of_origin }}</div>
                                     </li>
                                     <li>
                                         <div class="title">Local Government</div>
-                                        <div class="text">{{ employee.local_government }}</div>
+                                        <div class="text">{{ director.local_government }}</div>
                                     </li>
                                     <li>
                                         <div class="title">Religion</div>
-                                        <div class="text">{{ employee.religion }}</div>
+                                        <div class="text">{{ director.religion }}</div>
                                     </li>
                                     <li>
                                         <div class="title">Marital status</div>
-                                        <div class="text">{{ employee.marital_status }}</div>
+                                        <div class="text">{{ director.marital_status }}</div>
                                     </li>
                                 </ul>
                                 <h3 class="card-title">Bank information</h3>
                                 <ul class="personal-info">
                                     <li>
                                         <div class="title">Bank name</div>
-                                        <div class="text">{{ employee.bank }}</div>
+                                        <div class="text">{{ director.bank }}</div>
                                     </li>
                                     <li>
                                         <div class="title">Bank account No.</div>
-                                        <div class="text">{{ employee.nuban }}</div>
+                                        <div class="text">{{ director.nuban }}</div>
                                     </li>
                                     <li>
                                         <div class="title">Salary</div>
-                                        <div class="text">{{ employee.salary }}</div>
+                                        <div class="text">{{ director.salary }}</div>
                                     </li>
                                 </ul>
                             </div>
@@ -149,6 +148,7 @@
                     </div>
                     <div class="col-md-6 d-flex">
                     <div class="card profile-box flex-fill">
+                        {% if family %}
                         <div class="card-body">
                             <h3 class="card-title">Next of kin </h3>
                             <h5 class="section-title">Primary</h5>
@@ -183,13 +183,93 @@
                                 </li>
                             </ul>
                         </div>
+                        {% else %}
+                            <div class="card-body">
+                                <h3 class="card-title">Next of kin <a href="#" class="edit-icon" data-bs-toggle="modal" data-bs-target="#next_of_kin_modal"><i class="fas fa-pencil-alt"></i></a></h3>
+                                <h3 class="section-title">Kindly Add Your Next Of Kin</h3>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
             </div>
         </div>
             <!-- /Profile Info Tab -->
-    
+
+        <!-- next of kin Modal -->
+    <div id="next_of_kin_modal" class="modal custom-modal fade" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Update Next of Kin</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{% url 'director_profile' %}" method="POST">
+                        {% csrf_token %}
+                        <div class="card">
+                            <div class="card-body">
+                                <h3 class="card-title">Primary </h3>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Name <span class="text-danger">*</span></label>
+                                            {{ form.name1 }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Relationship <span class="text-danger">*</span></label>
+                                            {{ form.relationship1 }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Phone <span class="text-danger">*</span></label>
+                                            {{ form.phone_number1 }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-body">
+                                <h3 class="card-title">Secondary</h3>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Name <span class="text-danger">*</span></label>
+                                            {{ form.name2 }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Relationship <span class="text-danger">*</span></label>
+                                            {{ form.relationship2 }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Phone <span class="text-danger">*</span></label>
+                                            {{ form.phone_number2 }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="submit-section">
+                            <button class="btn btn-primary submit-btn">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Next Of Kin Modal -->
+
     <!-- Profile Modal -->
     <div id="profile_info" class="modal custom-modal fade" role="dialog">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">

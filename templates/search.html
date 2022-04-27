@@ -19,20 +19,17 @@
                         <li class="breadcrumb-item active">Employee</li>
                     </ul>
                 </div>
-                <div class="col-auto float-end ms-auto">
-                    <a href="#" class="btn add-btn" data-bs-toggle="modal" data-bs-target="#add_employee"><i class="fa fa-plus"></i> Add Employee</a>
-                </div>
             </div>
         </div>
         <!-- /Page Header -->
           {% include 'includes/alert.html' %}
 
         <!-- Search Filter -->
-        <form action="{% url 'search_employee' %}">
+        <form>
             <div class="row filter-row">
                 <div class="col-sm-6 col-md-3">
                     <div class="form-group form-focus">
-                        <input type="text" name="query" class="form-control floating" placeholder="Search Staff Name or Role">
+                        <input type="text" name="query" class="form-control floating" placeholder="Search Name, Department, or Role">
                         <label>Search For a staff</label>
                     </div>
                 </div>

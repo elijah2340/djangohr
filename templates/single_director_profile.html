@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %} {{ employee.full_name }} {% endblock %}
+{% block title %} {{ director.full_name }} {% endblock %}
 {% load static %}
 {% block content %}
 <!-- Page Wrapper -->
@@ -12,7 +12,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="page-head-box">
-                    <h3>{{ employee.full_name }}'s Profile</h3>
+                    <h3>{{ director.full_name }}'s Profile</h3>
                 </div>
             </div>
         </div>
@@ -25,43 +25,42 @@
                         <div class="profile-view">
                             <div class="profile-img-wrap">
                                 <div class="profile-img">
-                                    <img alt="" src="{{ employee.staff.profile_picture.url}}">
+                                    <img alt="" src="{{ director.staff.profile_picture.url}}">
                                 </div>
                             </div>
                             <div class="profile-basic">
                                 <div class="row">
                                     <div class="col-md-5">
                                         <div class="profile-info-left">
-                                            <h3 class="user-name m-t-0 mb-0">{{ employee.full_name }}</h3>
-                                            <h4><strong>Department: </strong>{{ employee.department }}</h4>
-                                            <small ><strong>Role: </strong>{{ employee.role }}</small>
-                                            <div class="staff-id"> <strong>ID: </strong>{{ employee.emp_id}}</div>
-                                            <div class="small doj "><strong>Date Joined: </strong>{{ employee.staff.date_joined}}</div>
-                                            <div class="small doj "><strong>Retirement Date: </strong>{{ employee.actual_retirement }}</div>
-                                            <div class="small doj "><strong>Verified: </strong>{{ employee.staff.is_active}}</div>
+                                            <h3 class="user-name m-t-0 mb-0">{{ director.full_name }}</h3>
+                                            <h4><strong>Department: </strong>{{ director.department }}</h4>
+                                            <small ><strong>Grade Level: </strong>{{ director.grade_level }}</small><div class="staff-id"> <strong>ID: </strong>{{ director.staff_id}}</div>
+                                            <div class="small doj "><strong>Date Joined: </strong>{{ director.staff.date_joined}}</div>
+                                            <div class="small doj "><strong>Retirement Date: </strong>{{ director.actual_retirement }}</div>
+                                            <div class="small doj "><strong>Verified: </strong>{{ director.staff.is_active}}</div>
                                             </div>
                                     </div>
                                     <div class="col-md-7">
                                         <ul class="personal-info">
                                             <li>
                                                 <div class="title">Phone:</div>
-                                                <div class="text">{{ employee.staff.phone_number }}</div>
+                                                <div class="text">{{ director.staff.phone_number }}</div>
                                             </li>
                                             <li>
                                                 <div class="title">Email:</div>
-                                                <div class="text">{{ employee.staff.email}}</div>
+                                                <div class="text">{{ director.staff.email}}</div>
                                             </li>
                                             <li>
                                                 <div class="title">Birthday:</div>
-                                                <div class="text">{{ employee.date_of_birth }}</div>
+                                                <div class="text">{{ director.date_of_birth }}</div>
                                             </li>
                                             <li>
                                                 <div class="title">Address:</div>
-                                                <div class="text">{{ employee.address }}</div>
+                                                <div class="text">{{ director.address }}</div>
                                             </li>
                                             <li>
                                                 <div class="title">Gender:</div>
-                                                <div class="text">{{ employee.gender }}</div>
+                                                <div class="text">{{ director.gender }}</div>
                                             </li>
                                             <li>
                                                 <div class="title">Reports to:</div>
@@ -79,9 +78,6 @@
                                     </div>
                                 </div>
                             </div>
-                            {% if request.user.is_admin %}
-                            <div class="pro-edit"><a data-bs-target="#profile_info" data-bs-toggle="modal" class="edit-icon" href="#"><i class="fas fa-pencil-alt"></i></a></div>
-                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -110,38 +106,38 @@
                                 <ul class="personal-info">
                                     <li>
                                         <div class="title">Tel</div>
-                                        <div class="text"><a href="">{{ employee.staff.phone_number }}</a></div>
+                                        <div class="text"><a href="">{{ director.staff.phone_number }}</a></div>
                                     </li>
                                     <li>
                                         <div class="title">State Of Origin</div>
-                                        <div class="text">{{ employee.state_of_origin }}</div>
+                                        <div class="text">{{ director.state_of_origin }}</div>
                                     </li>
                                     <li>
                                         <div class="title">Local Government</div>
-                                        <div class="text">{{ employee.local_government }}</div>
+                                        <div class="text">{{ director.local_government }}</div>
                                     </li>
                                     <li>
                                         <div class="title">Religion</div>
-                                        <div class="text">{{ employee.religion }}</div>
+                                        <div class="text">{{ director.religion }}</div>
                                     </li>
                                     <li>
                                         <div class="title">Marital status</div>
-                                        <div class="text">{{ employee.marital_status }}</div>
+                                        <div class="text">{{ director.marital_status }}</div>
                                     </li>
                                 </ul>
                                 <h3 class="card-title">Bank information</h3>
                                 <ul class="personal-info">
                                     <li>
                                         <div class="title">Bank name</div>
-                                        <div class="text">{{ employee.bank }}</div>
+                                        <div class="text">{{ director.bank }}</div>
                                     </li>
                                     <li>
                                         <div class="title">Bank account No.</div>
-                                        <div class="text">{{ employee.nuban }}</div>
+                                        <div class="text">{{ director.nuban }}</div>
                                     </li>
                                     <li>
                                         <div class="title">Salary</div>
-                                        <div class="text">{{ employee.salary }}</div>
+                                        <div class="text">{{ director.salary }}</div>
                                     </li>
                                 </ul>
                             </div>

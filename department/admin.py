@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Department, Employee, Attendance, Leave, NextOfKin
+from .models import Department, Employee, Attendance, Leave, NextOfKin, Director, DirectorNextOfKin
 
 
 class LeaveAdmin(admin.ModelAdmin):
@@ -7,12 +7,16 @@ class LeaveAdmin(admin.ModelAdmin):
 
 
 class AttendanceAdmin(admin.ModelAdmin):
-    list_display = ('staff', 'date', 'status',)
+    list_display = ('staff', 'date', 'first_in', 'status',)
     list_filter = ('status', 'date')
 
 
 class EmployeeAdmin(admin.ModelAdmin):
-    list_display = ('full_name', 'role')
+    list_display = ('full_name', 'role', 'department')
+
+
+class DirectorAdmin(admin.ModelAdmin):
+    list_display = ('full_name', 'department')
 
 
 class DepartmentAdmin(admin.ModelAdmin):
@@ -25,3 +29,5 @@ admin.site.register(Employee, EmployeeAdmin)
 admin.site.register(Attendance, AttendanceAdmin)
 admin.site.register(Leave, LeaveAdmin)
 admin.site.register(NextOfKin)
+admin.site.register(DirectorNextOfKin)
+admin.site.register(Director, DirectorAdmin)

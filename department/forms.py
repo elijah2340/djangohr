@@ -1,5 +1,5 @@
 from django import forms
-from .models import Attendance, Employee, Department, NextOfKin, Leave
+from .models import Attendance, Employee, Department, NextOfKin, Leave, Director, DirectorNextOfKin
 from django.utils import timezone
 from django.db.models import Q
 from tempus_dominus.widgets import DatePicker, TimePicker, DateTimePicker
@@ -60,7 +60,8 @@ class NewEmployeeForm(forms.ModelForm):
     class Meta:
         model = Employee
         fields = ['gender', 'emergency', 'role', 'department', 'language', 'nuban', 'bank', 'salary', 'local_government'
-                  , 'state_of_origin', 'date_of_first_appointment', 'date_of_birth', 'date_of_present_appointment', 'grade_level']
+                  , 'state_of_origin', 'date_of_first_appointment', 'date_of_birth', 'date_of_present_appointment',
+                  'grade_level', 'marital_status', 'religion', 'address']
 
     def __init__(self, *args, **kwargs):
         super(NewEmployeeForm, self).__init__(*args, **kwargs)
@@ -73,6 +74,69 @@ class NewEmployeeForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super(NewEmployeeForm, self).clean()
+
+
+class DirectorForm(forms.ModelForm):
+    date_of_first_appointment = forms.DateField(
+        required=True,
+        widget=DatePicker(
+            options={
+                'minDate': '1990-01-10',
+                'useCurrent': True,
+                'collapse': True,
+            },
+            attrs={
+                'append': 'fa fa-calendar',
+                'icon_toggle': True,
+            }
+        ),
+    )
+    date_of_present_appointment = forms.DateField(
+        required=True,
+        widget=DatePicker(
+            options={
+                'minDate': '1990-01-10',
+                'useCurrent': True,
+                'collapse': True,
+            },
+            attrs={
+                'append': 'fa fa-calendar',
+                'icon_toggle': True,
+            }
+        ),
+    )
+    date_of_birth = forms.DateField(
+        required=True,
+        widget=DatePicker(
+            options={
+                'minDate': '1990-01-10',
+                'useCurrent': True,
+                'collapse': True,
+            },
+            attrs={
+                'append': 'fa fa-calendar',
+                'icon_toggle': True,
+            }
+        ),
+    )
+
+    class Meta:
+        model = Director
+        fields = ['gender', 'emergency', 'department', 'language', 'nuban', 'bank', 'salary', 'local_government'
+                  , 'state_of_origin', 'date_of_first_appointment', 'date_of_birth', 'date_of_present_appointment',
+                  'grade_level', 'marital_status', 'religion', 'address']
+
+    def __init__(self, *args, **kwargs):
+        super(DirectorForm, self).__init__(*args, **kwargs)
+        self.fields['emergency'].widget.attrs['placeholder'] = 'Enter an emergency line'
+        self.fields['nuban'].widget.attrs['placeholder'] = 'Input Bank Account Number'
+        self.fields['bank'].widget.attrs['placeholder'] = 'Input Bank'
+        self.fields['salary'].widget.attrs['placeholder'] = 'Input Salary'
+        for field in self.fields:
+            self.fields[field].widget.attrs['class'] = 'form-control'
+
+    def clean(self):
+        cleaned_data = super(DirectorForm, self).clean()
 
 
 class NewDepartmentForm(forms.ModelForm):
@@ -101,6 +165,20 @@ class NextOfKinForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super(NextOfKinForm, self).clean()
+
+
+class DirectorNextOfKinForm(forms.ModelForm):
+    class Meta:
+        model = DirectorNextOfKin
+        fields = ['name1', 'relationship1', 'phone_number1', 'name2', 'relationship2', 'phone_number2']
+
+    def __init__(self, *args, **kwargs):
+        super(DirectorNextOfKinForm, self).__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs['class'] = 'form-control'
+
+    def clean(self):
+        cleaned_data = super(DirectorNextOfKinForm, self).clean()
 
 
 class LeaveForm(forms.ModelForm):
@@ -143,5 +221,3 @@ class LeaveForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super(LeaveForm, self).clean()
-
-

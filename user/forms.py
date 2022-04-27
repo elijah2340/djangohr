@@ -1,6 +1,7 @@
 from django import forms
 from .models import Account
 from django.contrib.auth.password_validation import validate_password
+from department.models import Employee, Director
 
 
 class RegistrationForm(forms.ModelForm):
@@ -33,3 +34,9 @@ class RegistrationForm(forms.ModelForm):
         confirm_password = cleaned_data.get('confirm_password')
         if password != confirm_password:
             raise forms.ValidationError('Submitted Passwords Don\'t match, please try again')
+
+
+class EditDirectorForm(forms.ModelForm):
+    class Meta:
+        model = Director
+        fields = ['address', ]

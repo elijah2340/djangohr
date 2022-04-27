@@ -41,6 +41,7 @@
                                             <small ><strong>Role: </strong>{{ employee.role }}</small>
                                             <div class="staff-id"> <strong>ID: </strong>{{ employee.emp_id}}</div>
                                             <div class="small doj "><strong>Date Joined: </strong>{{ employee.staff.date_joined}}</div>
+                                            <div class="small doj "><strong>Retirement Date: </strong>{{ employee.actual_retirement}}</div>
                                             <div class="small doj "><strong>Verified: </strong>{{ employee.staff.is_active}}</div>
                                         </div>
                                     </div>
@@ -71,10 +72,10 @@
                                                 <div class="text">
                                                    <div class="avatar-box">
                                                       <div class="avatar avatar-xs">
-                                                         <img src="{{ employee.department.director.profile_picture.url }}" alt="">
+                                                         <img src="{{ director.staff.profile_picture.url }}" alt="">
                                                       </div>
                                                    </div>
-                                                    {{ employee.department.director }}
+                                                    {{ director }}
 
                                                 </div>
                                             </li>

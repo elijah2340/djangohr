@@ -40,6 +40,18 @@
                 <div class="card flex-fill tickets-card">
                     <div class="card-header">
                         <div class="text-center w-100 p-3">
+                            <a href="{% url 'directors' %}">
+                                <h3 class="bl-text mb-1">{{ directors.count }}</h3>
+                                <h2>Directors</h2>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+                <div class="card flex-fill tickets-card">
+                    <div class="card-header">
+                        <div class="text-center w-100 p-3">
                             <a href="{% url 'employees' %}">
                             <h3 class="bl-text mb-1">{{ employees_count }}</h3>
                             <h2>Employees</h2>

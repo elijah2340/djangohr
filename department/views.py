@@ -1,5 +1,4 @@
 import datetime
-
 from django.contrib.auth.mixins import *
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
@@ -7,8 +6,8 @@ from django.views.generic import *
 from django.utils import timezone
 from django.db.models import Q
 from user.forms import RegistrationForm
-from .forms import AttendanceForm, NewEmployeeForm, NewDepartmentForm, LeaveForm
-from .models import Department, Employee, Attendance, Leave
+from .forms import AttendanceForm, NewEmployeeForm, NewDepartmentForm, LeaveForm, DirectorForm, DirectorNextOfKinForm
+from .models import Department, Employee, Attendance, Leave, Director, NextOfKin, DirectorNextOfKin
 from user.models import Account
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
@@ -100,6 +99,11 @@ def allEmployees(request):
                 retirement_by_birth = date_of_birth.replace(year=date_of_birth.year + 60)
                 retirement_by_service = date_of_first_appointment.replace(year=date_of_first_appointment.year + 35)
                 employee = Employee()
+                if retirement_by_birth < retirement_by_service:
+                    employee.actual_retirement = retirement_by_birth
+                else:
+                    employee.actual_retirement = retirement_by_service
+                employee.name = user.first_name + user.last_name
                 employee.retirement_date_by_age = retirement_by_birth
                 employee.retirement_date_by_years_of_service = retirement_by_service
                 employee.staff = user
@@ -154,12 +158,210 @@ def allEmployees(request):
         return render(request, 'employees.html', context)
 
 
+def allDirectors(request):
+     if request.user.has_perm('is_admin'):
+        directors = Director.objects.all().order_by('-staff__date_joined')
+        if request.method == 'POST':
+            form = RegistrationForm(request.POST, request.FILES)
+            director_form = DirectorForm(request.POST)
+            if form.is_valid() and director_form.is_valid():
+                first_name = form.cleaned_data['first_name']
+                last_name = form.cleaned_data['last_name']
+                username = form.cleaned_data['username']
+                email = form.cleaned_data['email']
+                phone_number = form.cleaned_data['phone_number']
+                password = form.cleaned_data['password']
+                profile_picture = form.cleaned_data['profile_picture']
+                gender = director_form.cleaned_data['gender']
+                emergency = director_form.cleaned_data['emergency']
+                local_government = director_form.cleaned_data['local_government']
+                state_of_origin = director_form.cleaned_data['state_of_origin']
+                date_of_first_appointment = director_form.cleaned_data['date_of_first_appointment']
+                date_of_present_appointment = director_form.cleaned_data['date_of_present_appointment']
+                date_of_birth = director_form.cleaned_data['date_of_birth']
+                grade_level = director_form.cleaned_data['grade_level']
+                department = director_form.cleaned_data['department']
+                language = director_form.cleaned_data['language']
+                nuban = director_form.cleaned_data['nuban']
+                bank = director_form.cleaned_data['bank']
+                salary = director_form.cleaned_data['salary']
+                user = Account.objects.create_user(
+                    first_name=first_name,
+                    last_name=last_name,
+                    username=username,
+                    email=email,
+                    profile_picture=profile_picture,
+                    password=password
+                )
+                user.phone_number = phone_number
+                user.save()
+
+                retirement_by_birth = date_of_birth.replace(year=date_of_birth.year + 60)
+                retirement_by_service = date_of_first_appointment.replace(year=date_of_first_appointment.year + 35)
+                director = Director()
+                if retirement_by_birth < retirement_by_service:
+                    director.actual_retirement = retirement_by_birth
+                else:
+                    director.actual_retirement = retirement_by_service
+
+                director.retirement_date_by_age = retirement_by_birth
+                director.retirement_date_by_years_of_service = retirement_by_service
+                director.staff = user
+                director.gender = gender
+                director.date_of_birth = date_of_birth
+                director.emergency = emergency
+                director.local_government = local_government
+                director.state_of_origin = state_of_origin
+                director.date_of_first_appointment = date_of_first_appointment
+                director.date_of_present_appointment = date_of_present_appointment
+                director.grade_level = grade_level
+                director.department = department
+                director.language = language
+                director.nuban = nuban
+                director.bank = bank
+                director.salary = salary
+                director.save()
+
+                # user activation mail
+                current_site = get_current_site(request)
+                mail_subject = 'Please Activate Your Account'
+                message = render_to_string('department/director_verification_email.html', {
+                    'user': user,
+                    'domain': current_site,
+                    'password': password,
+                    'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                    'token': default_token_generator.make_token(user)
+                })
+                to_email = email
+                send_email = EmailMessage(mail_subject, message, to=[to_email])
+                send_email.send()
+                messages.success(request, 'Director successfully registered, waiting for Director to confirm account through mail ')
+                return redirect('directors')
+            else:
+                messages.error(request, 'Failed to add new employee, please check all fields and try again')
+                context = {
+                    'directors': directors,
+                    'form': form,
+                    'director_form': director_form
+                }
+                return render(request, 'directors.html', context)
+        else:
+            form = RegistrationForm()
+            director_form = DirectorForm()
+
+        context = {
+            'directors': directors,
+            'form': form,
+            'director_form': director_form
+        }
+        return render(request, 'directors.html', context)
+
+def activate(request, uidb64, token):
+    try:
+        uid = urlsafe_base64_decode(uidb64).decode()
+        user = Account._default_manager.get(pk=uid)
+    except (TypeError, OverflowError, Account.DoesNotExist):
+        user=None
+    if user is not None and default_token_generator.check_token(user, token):
+        user.is_active = True
+        user.is_staff = True
+        user.save()
+        messages.success(request, 'Your Account Has Been Successfully Activated, Please Login')
+        return redirect('login')
+    else:
+        messages.error(request, 'Invalid Activation Link, Please Contact The Management.')
+        return redirect('login')
+
+def employeeactivate(request, uidb64, token):
+    try:
+        uid = urlsafe_base64_decode(uidb64).decode()
+        user = Account._default_manager.get(pk=uid)
+    except (TypeError, OverflowError, Account.DoesNotExist):
+        user=None
+    if user is not None and default_token_generator.check_token(user, token):
+        user.is_active = True
+        user.save()
+        messages.success(request, 'Your Account Has Been Successfully Activated, Please Login')
+        return redirect('login')
+    else:
+        messages.error(request, 'Invalid Activation Link, Please Contact The Management.')
+        return redirect('login')
+
+
 def employeeProfile(request, id):
     employee = Employee.objects.get(emp_id=id)
+    try:
+        family = NextOfKin.objects.get(employee=employee)
+    except NextOfKin.DoesNotExist:
+        family = None
+    try:
+        director = Director.objects.get(department=employee.department)
+    except Director.DoesNotExist:
+        director = None
     context = {
-        'employee': employee
+        'employee': employee,
+        'director': director,
+        'family': family
     }
     return render(request, 'employee_profile.html', context)
+
+
+def singleDirectorProfile(request, id):
+    director = Director.objects.get(id=id)
+    try:
+        family = DirectorNextOfKin.objects.get(staff=director)
+    except NextOfKin.DoesNotExist:
+        family = None
+    context = {
+        'director': director,
+        'family': family
+    }
+    return render(request, 'single_director_profile.html', context)
+
+
+def directorProfile(request):
+    director = Director.objects.get(staff=request.user)
+    try:
+        family = DirectorNextOfKin.objects.get(staff=director)
+    except DirectorNextOfKin.DoesNotExist:
+        family = None
+    if request.method == 'POST':
+        form = DirectorNextOfKinForm(request.POST)
+        if form.is_valid():
+            name1 = form.cleaned_data['name1']
+            relationship1 = form.cleaned_data['relationship1']
+            phone_number1 = form.cleaned_data['phone_number1']
+            name2 = form.cleaned_data['name1']
+            relationship2 = form.cleaned_data['relationship1']
+            phone_number2 = form.cleaned_data['phone_number1']
+
+            kin = DirectorNextOfKin()
+            kin.staff = director
+            kin.name1 = name1
+            kin.relationship1 = relationship1
+            kin.phone_number1 = phone_number1
+            kin.name2 = name2
+            kin.relationship2 = relationship2
+            kin.phone_number2 = phone_number2
+            kin.save()
+            messages.success(request, 'Next of Kin added successfully')
+            return redirect('director_profile')
+        else:
+            messages.error(request, 'Failed to add next of kin, please check all fields and try again')
+            context = {
+                'form': form,
+                'family': family,
+                'director': director,
+            }
+            return render(request, 'director_profile.html', context)
+    else:
+        form = DirectorNextOfKinForm()
+        context = {
+            'form': form,
+            'family': family,
+            'director': director,
+        }
+        return render(request, 'director_profile.html', context)
 
 
 def leave(request):
@@ -194,6 +396,67 @@ def leave(request):
     }
     return render(request, 'leave.html', context)
 
+def department_leave(request):
+    director = Director.objects.get(staff=request.user)
+    department = Department.objects.get(name=director.department)
+    pending_leave = Leave.objects.filter(status='PENDING', applicant__department=department)
+    approved_leave = Leave.objects.filter(status='APPROVED', applicant__department=department)
+    declined_leave = Leave.objects.filter(status='DECLINED', applicant__department=department)
+    all_leave = Leave.objects.filter(applicant__department=department).order_by('-date_applied')
+    for leave in all_leave:
+        if datetime.date.today() >= leave.end_time:
+            leave.completed = True
+            leave.save()
+    context = {
+        'pending_leave': pending_leave,
+        'approved_leave': approved_leave,
+        'declined_leave': declined_leave,
+        'all_leave': all_leave
+    }
+
+    return render(request, 'department_leave.html', context)
+
+
+def retiring_staff(request):
+    director = Director.objects.get(staff=request.user)
+    department = Department.objects.get(name=director.department)
+    today = datetime.datetime.today()
+    day = 0
+    to_retire = None
+    for i in range(31):
+        if day < 30:
+            day += 1
+            retirering_staff = Employee.objects.filter(department=department,
+                                                       actual_retirement=datetime.datetime(today.year, today.month,
+                                                                                           day))
+            if retirering_staff:
+                to_retire = retirering_staff
+    context = {
+        'retirering_staff': to_retire
+    }
+    return render(request, 'retirering_staff.html', context)
+
+def approve_leave(request, id):
+    try:
+        applicant_leave = Leave.objects.get(applicant__id=id, status='PENDING')
+    except Leave.DoesNotExist:
+        applicant_leave = None
+    applicant_leave.status = 'APPROVED'
+    applicant_leave.save()
+    messages.success(request, 'Leave Status Successfully Updated')
+    return redirect('department_leave')
+
+
+def decline_leave(request, id):
+    try:
+        leave_to_decline = Leave.objects.get(applicant__id=id, status='PENDING')
+    except Leave.DoesNotExist:
+        leave_to_decline = None
+    leave_to_decline.status = 'DECLINED'
+    leave_to_decline.save()
+    messages.success(request, 'Leave Status Successfully Updated')
+    return redirect('department_leave')
+
 
 # remember to later add LoginRequiredMixin
 class Attendance_New(CreateView):
@@ -210,35 +473,37 @@ class Attendance_New(CreateView):
         context['present_staffers'] = pstaff
         return context
 
+
 def attendance(request):
-    form = AttendanceForm(request.POST)
-    staff = Employee.objects.get(staff=request.user)
-    if request.method == 'POST':
-        if form.is_valid():
-            data = Attendance()
-            data.staff = staff
-            data.first_in = datetime.datetime.now()
-            data.status = "PRESENT"
-            data.save()
-            return render(request, 'attendance.html')
-    if Attendance.objects.filter(staff=staff, date=timezone.localdate()).exists():
-        context = {
-            'signed_in': True
-        }
-        return render(request, 'attendance.html', context)
-    else:
-        return render(request, 'attendance.html', {'form':AttendanceForm()})
+    all_attendance = Attendance.objects.all()
+
+    context = {
+        'attendance': all_attendance
+    }
+    return render(request, 'attendance.html', context)
+
+def departmentattendance(request):
+    director = Director.objects.get(staff=request.user)
+    all_attendance = Attendance.objects.filter(staff__department=director.department)
+
+    context = {
+        'attendance': all_attendance
+    }
+    return render(request, 'departmentattendance.html', context)
 
 
-
-# remember to add LoginRequiredMixin
-class Attendance_Out(View):
-    # login_url = 'login'
-    def get(self, request,*args, **kwargs):
-        user = Attendance.objects.get(Q(staff__id=self.kwargs['pk']) & Q(status='PRESENT')& Q(date=timezone.localdate()))
-        user.last_out = timezone.localtime()
-        user.save()
-        return redirect('attendance')
-
-
-
+def searchview(request):
+    employees = None
+    if 'query' in request.GET:
+        query = request.GET['query']
+        if query:
+            employees = Employee.objects.order_by('-staff__date_joined').filter(Q(name__icontains=query) | Q(role__icontains=query))
+            employee_count = employees.count()
+            if employees.count() == 0:
+                messages.warning(request, f'No staff with \'{query}\' found.')
+            else:
+                messages.success(request, f'{employee_count} staff found.')
+    context = {
+        'employees': employees,
+    }
+    return render(request, 'search.html', context)

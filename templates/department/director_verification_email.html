@@ -1,0 +1,14 @@
+{% autoescape off %}
+
+Hi {{ user.first_name }}
+
+Please click on the link below to activate your Director account and login
+Your password is {{ password }}
+Please make sure to edit your profile and change your password after activation.
+Thanks
+Team {{ domain }}
+
+http://{{domain}}{% url 'director_activate' uidb64=uid token=token %}
+
+
+{% endautoescape %}

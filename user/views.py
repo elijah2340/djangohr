@@ -1,6 +1,8 @@
+import datetime
+
 from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import render, redirect
-
+from department.models import Attendance, Employee
 from user.forms import RegistrationForm
 from user.models import Account
 from django.contrib.sites.shortcuts import get_current_site
@@ -35,6 +37,7 @@ def registerview(request):
             user.phone_number = phone_number
             user.is_staff = True
             user.is_admin = True
+            user.is_superadmin = True
             user.save()
 
             # # user profile creation
@@ -76,6 +79,18 @@ def loginview(request):
             messages.success(request, 'You Are Now Logged In')
             url = request.META.get('HTTP_REFERER')
             try:
+                employee = Employee.objects.get(staff=request.user)
+                if Attendance.objects.filter(date=datetime.datetime.now().date(), staff__staff=request.user).exists():
+                    pass
+                else:
+                    attendance = Attendance()
+                    attendance.staff = employee
+                    attendance.status = 'PRESENT'
+                    attendance.first_in = datetime.datetime.now().strftime('%H:%M:%S')
+                    attendance.save()
+            except:
+                pass
+            try:
                 query = requests.utils.urlparse(url).query
                 params = dict(x.split('=') for x in query.split('&'))
                 if 'next' in params:
@@ -83,6 +98,7 @@ def loginview(request):
                     return redirect(nextPage)
             except:
                 return redirect('dashboard')
+
         else:
             messages.error(request, 'Invalid Login Credentials, Please Try Again')
             return redirect('login')
@@ -108,7 +124,7 @@ def activateview(request, uidb64, token):
         return redirect('login')
     else:
         messages.error(request, 'Invalid Activation Link')
-        return redirect('register')
+        return redirect('login')
 
 def forgotpasswordview(request):
     if request.method == 'POST':
@@ -164,3 +180,28 @@ def resetpasswordview(request):
             messages.error(request, 'passwords do not match')
             return redirect('reset-password')
     return render(request, 'user/reset-password.html')
+
+
+@login_required(login_url='login')
+def changepasswordview(request):
+    if request.method == 'POST':
+        current_password = request.POST['current_password']
+        new_password = request.POST['new_password']
+        confirm_password = request.POST['confirm_password']
+
+        user = Account.objects.get(username__exact=request.user.username)
+
+        if new_password == confirm_password:
+            success = user.check_password(current_password)
+            if success:
+                user.set_password(new_password)
+                user.save()
+                messages.success(request, 'Your password has been sucessfully updated')
+                return redirect('dashboard')
+            else:
+                messages.error(request, 'Please enter the valid current password')
+                return redirect('change_password')
+        else:
+            messages.error(request, 'passwords do not match')
+            return redirect('change_password')
+    return render(request, 'user/change_password.html')

@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block title %}Retiring Staffs{% endblock %}
+{% block content %}
+<!-- Page Wrapper -->
+<div class="page-wrapper">
+
+    <!-- Page Content -->
+    <div class="content container-fluid pb-0">
+
+        <!-- Page Header -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="page-head-box">
+                    {% include 'includes/alert.html' %}
+                    <h3>Staffs To Retire This Month</h3>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <!-- /Page Header -->
+        <div class="row">
+            <div class="col-md-12">
+                {% if retirering_staff == None %}
+                <h3>No Staff Is Retiring This Month</h3> <br>
+                {% endif %}
+                <div class="table-responsive">
+                    <table id="staffs" class="table table-striped custom-table mb-0 datatable">
+                        <thead><h4>Retiring Staffs</h4></thead>
+                        <thead>
+                            <tr>
+                                <th>Staff Name</th>
+                                <th>Retirement Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for staff in retirering_staff %}
+                            <tr>
+                                <td>
+                                    <h2 class="table-avatar">
+                                        <a href="#" class="avatar"><img alt="" src="{{ staff.staff.profile_picture.url }}"></a>
+                                        <a href="#">{{ staff.staff.full_name }} <span>{{ staff.role }}</span></a>
+                                    </h2>
+                                </td>
+                                <td>{{ staff.actual_retirement }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

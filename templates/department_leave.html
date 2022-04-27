@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% block title %}Leave{% endblock %}
+{% block content %}
+<!-- Page Wrapper -->
+<div class="page-wrapper">
+
+    <!-- Page Content -->
+    <div class="content container-fluid pb-0">
+
+        <!-- Page Header -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="page-head-box">
+                    {% include 'includes/alert.html' %}
+                    <h3>Leaves</h3>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <!-- /Page Header -->
+
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+                <div class="card flex-fill tickets-card">
+                    <div class="card-header">
+                        <div class="text-center w-100 p-3">
+                            <h3 class="bl-text mb-1">{{ pending_leave.count }}</h3>
+                            <h2>Pending Application</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+                <div class="card flex-fill tickets-card">
+                    <div class="card-header">
+                        <div class="text-center w-100 p-3">
+                            <h3 class="bl-text mb-1">{{ approved_leave.count }}</h3>
+                            <h2>Approved Application</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+                <div class="card flex-fill tickets-card">
+                    <div class="card-header">
+                        <div class="text-center w-100 p-3">
+                            <h3 class="bl-text mb-1">{{ declined_leave.count }}</h3>
+                            <h2>Declined pplication</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table id="staffs" class="table table-striped custom-table mb-0 datatable">
+                        <thead><h4>Leaves</h4></thead>
+                        <thead>
+                            <tr>
+                                <th>Staff Name</th>
+                                <th>Leave Purpose</th>
+                                <th>From</th>
+                                <th>To</th>
+                                <th>Status</th>
+                                <th>Completed</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for leave in all_leave %}
+                            <tr>
+                                <td>
+                                    <h2 class="table-avatar">
+                                        <a href="#" class="avatar"><img alt="" src="{{ leave.applicant.staff.profile_picture.url }}"></a>
+                                        <a href="#">{{ leave.applicant.staff.full_name }} <span>{{ leave.applicant.role }}</span></a>
+                                    </h2>
+                                </td>
+                                <td>{{ leave.leave_purpose }}</td>
+                                <td>{{ leave.start_time }}</td>
+                                <td>{{ leave.end_time }}</td>
+                                {% if leave.status == 'PENDING' %}
+                                <td class="text-center">
+                                    <div class="dropdown action-label">
+                                        <a class="btn btn-white btn-sm btn-rounded dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fa fa-dot-circle-o text-purple"></i> Pending
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <a class="dropdown-item" href="{% url 'approve_leave' leave.applicant.id %}"> Approve</a>
+                                            <a class="dropdown-item" href="{% url 'decline_leave' leave.applicant.id %}"><i class="fas fa-dot-circle-o text-danger"></i> Decline</a>
+                                        </div>
+                                    </div>
+                                </td>
+                                {% else %}
+                                <td>{{ leave.status }}</td>
+                                {% endif %}
+                                <td>{{ leave.completed }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
